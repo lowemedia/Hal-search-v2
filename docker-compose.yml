@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    container_name: 'hal-search-web'
+#    image: "nginx"
+    build: 
+     context: .
+     dockerfile: nginx/Dockerfile
+    ports:
+      - "82:82"
+    volumes:
+      - ./appcode:/var/www/html/
+      - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+      
+    links:
+      - php
+      
+  php:
+    container_name: 'hal-search-php'
+#    image: php:7.1.5-fpm
+    build: 
+     context: .
+     dockerfile: php/Dockerfile
+    volumes:
+      - ./appcode:/var/www/html/
+
+networks:
+    default:
+        external:
+            name: halv2_default
