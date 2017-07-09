@@ -15,7 +15,7 @@ class HomePageAction implements ServerMiddlewareInterface
         
         $search = new \App\Query\Search();
         
-        $response = $search->fetch($params);
+        $response = $search->buildClient()->fetch($params);
         
         return new JsonResponse([
             'total' => $response['totalCount'],

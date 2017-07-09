@@ -58,7 +58,7 @@ class CategoryAction implements ServerMiddlewareInterface
         $params['size'] = $size;
         $params['category'] = [$category->code];
         
-        $results = $search->fetch($params);
+        $results = $search->buildClient()->fetch($params);
         
         $results['code'] = $category->code;
         

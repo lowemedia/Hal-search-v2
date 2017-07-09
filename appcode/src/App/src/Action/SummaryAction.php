@@ -26,7 +26,7 @@ class SummaryAction implements ServerMiddlewareInterface
         ];
         
         $search = new \App\Query\Search();
-        $featured = $search->fetch($params);
+        $featured = $search->buildClient()->fetch($params);
         
         $slugs = [];
         
