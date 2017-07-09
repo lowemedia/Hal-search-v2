@@ -9,7 +9,13 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class SummaryAction implements ServerMiddlewareInterface
 {
-
+    private $hosts;
+    
+    public function __construct(array $hosts)
+    {
+        $this->hosts = $hosts;
+    }
+    
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $date = new \DateTime();
@@ -25,7 +31,7 @@ class SummaryAction implements ServerMiddlewareInterface
             'exists' => ['featured', 'image']
         ];
         
-        $search = new \App\Query\Search();
+        $search = new \App\Query\Search($this->hosts);
         $featured = $search->buildClient()->fetch($params);
         
         $slugs = [];

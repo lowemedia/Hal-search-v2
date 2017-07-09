@@ -15,8 +15,10 @@ abstract class QueryAbstract
     
     private $client;
     
-    public function __construct()
+    public function __construct(array $hosts)
     {
+        $this->setHosts($hosts);
+        
     }
     
     public function setHosts(array $hosts)

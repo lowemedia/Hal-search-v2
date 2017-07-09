@@ -34,10 +34,10 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Action\HomePageAction::class => Action\HomePageAction::class,
-                Action\SummaryAction::class => Action\SummaryAction::class,
             ],
             'factories' => [
+                Action\SummaryAction::class => Action\SummaryFactory::class,
+                Action\HomePageAction::class => Action\HomePageFactory::class,
                 Action\CategoryAction::class => Action\CategoryFactory::class,
             ]
         ];

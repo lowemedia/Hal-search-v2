@@ -9,11 +9,18 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class HomePageAction implements ServerMiddlewareInterface
 {
+    private $hosts;
+    
+    public function __construct(array $hosts)
+    {
+        $this->hosts = $hosts;
+    }
+    
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $params = $request->getQueryParams();
         
-        $search = new \App\Query\Search();
+        $search = new \App\Query\Search($this->hosts);
         
         $response = $search->buildClient()->fetch($params);
         
