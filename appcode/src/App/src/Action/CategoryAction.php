@@ -10,12 +10,14 @@ use Zend\Diactoros\Response\JsonResponse;
 class CategoryAction implements ServerMiddlewareInterface
 {
     private $apiConfig = [];
+    private $hosts = [];
     private $response = [];
     private $topLevel = false;
     
-    public function __construct(array $config)
+    public function __construct(array $config, array $hosts)
     {
         $this->apiConfig = $config;
+        $this->hosts = $hosts;
     }
     
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -51,7 +53,7 @@ class CategoryAction implements ServerMiddlewareInterface
     {
         $params = $request->getQueryParams();
         
-        $search = new \App\Query\Search();
+        $search = new \App\Query\Search($this->hosts);
         
         $params['sort'] = ['publishDate:desc'];
         $params['page'] = 1;

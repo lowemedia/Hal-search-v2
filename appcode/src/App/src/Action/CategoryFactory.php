@@ -10,6 +10,6 @@ class CategoryFactory
     {
         $config = $container->get('config');
         
-        return new CategoryAction($config['api']);
+        return new CategoryAction($config['api'], $config['elasticsearch']['hosts']);
     }
 }
