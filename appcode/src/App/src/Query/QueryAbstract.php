@@ -9,9 +9,7 @@ use Elasticsearch\ClientBuilder;
  */
 abstract class QueryAbstract
 {
-    protected $hosts = [
-        '10.211.55.29:9200'
-    ];
+    protected $hosts = [];
     
     protected $params = array();
     
@@ -19,11 +17,32 @@ abstract class QueryAbstract
     
     public function __construct()
     {
-        $this->setClient(ClientBuilder::create()
-                ->setHosts($this->hosts)
-                ->build());
     }
     
+    public function setHosts(array $hosts)
+    {
+        $this->hosts = $hosts;
+        return $this;
+    }
+    
+    public function getHosts()
+    {
+        if (!is_array($this->hosts) || empty($this->hosts)) {
+            throw new \InvalidArgumentException('Hosts must be an array of IP addresses');
+        }
+        return $this->hosts;
+    }
+    
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+        return $this;
+    }
+    
+    public function getParams()
+    {
+        return $this->params;
+    }
     
     public function setClient($client)
     {
@@ -36,15 +55,11 @@ abstract class QueryAbstract
         return $this->client;
     }
     
-    public function setParams(array $params)
+    public function buildClient()
     {
-        $this->params = $params;
-        return $this;
-    }
-    
-    public function getParams()
-    {
-        return $this->params;
+        $this->setClient(ClientBuilder::create()
+                ->setHosts($this->getHosts())
+                ->build());
     }
     
     protected function buildClientParams(array $params)

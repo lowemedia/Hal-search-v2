@@ -11,6 +11,7 @@ class CategoryAction implements ServerMiddlewareInterface
 {
     private $apiConfig = [];
     private $response = [];
+    private $topLevel = false;
     
     public function __construct(array $config)
     {
@@ -19,6 +20,13 @@ class CategoryAction implements ServerMiddlewareInterface
     
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        $params = $request->getQueryParams();
+        $this->topLevel = false;
+        
+        if (isset($params['top-level'])) {
+            $this->topLevel = $params['top-level'];
+        }
+        
         $this->response['count'] = 0;
         $this->response['totalCount'] = 0;
         
@@ -27,13 +35,13 @@ class CategoryAction implements ServerMiddlewareInterface
         
         $data = json_decode($res->getBody());
         
-        if (count($data->category->childCategories) > 0) {
+        if ($this->topLevel === false && count($data->category->childCategories) > 0) {
             $this->response['category']['name'] = $data->category->name;
             foreach ($data->category->childCategories as $category) {
                 $this->processCategory($request, $category, 25);
             }
         } else {
-            $this->processCategory($request, $data->category, 100);
+            $this->processCategory($request, $data->category, $this->topLevel?25:100);
         }
         
         return new JsonResponse($this->response);
