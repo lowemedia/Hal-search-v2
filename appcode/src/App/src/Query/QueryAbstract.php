@@ -62,6 +62,7 @@ abstract class QueryAbstract
         $this->setClient(ClientBuilder::create()
                 ->setHosts($this->getHosts())
                 ->build());
+        return $this;
     }
     
     protected function buildClientParams(array $params)
