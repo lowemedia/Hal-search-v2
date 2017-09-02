@@ -25,10 +25,11 @@ class SummaryAction implements ServerMiddlewareInterface
         $params = [
             'index' => 'articles',
             'type'  => 'article',
-            'size'  => 22,
+            'size'  => 65,
             'date-fr' => $date->format('c'),
             'sort' => 'publishDate:desc',
-            'exists' => ['featured', 'image']
+            'exists' => ['image'],
+//            'filter' => ['featured' => '1']
         ];
         
         $search = new \App\Query\Search($this->hosts);
@@ -40,9 +41,9 @@ class SummaryAction implements ServerMiddlewareInterface
             $slugs[] = $article['slug'];
         }
         
-        $params['size'] = 250;
+        $params['size'] = 240;
         unset($params['exists']); // = ['featured'];
-        
+        unset($params['filter']);
         $params['excludes'] = ['slug' => $slugs];
         
         $latest = $search->fetch($params);

@@ -17,6 +17,7 @@ class Article
     private $publishDate;
     private $image;
     private $categories = [];
+    private $displayCategories = [];
 
     public function __construct(array $data)
     {
@@ -29,18 +30,22 @@ class Article
         $this->setIndex($data['_index'])
                 ->setType($data['_type'])
                 ->setScore($data['_score'])
-                ->setId($data['_id'])
-                ->setTitle($data['_source']['title'])
-                ->setSlug($data['_source']['slug'])
-                ->setSummary($data['_source']['summary'])
-                ->setContent($data['_source']['content'])
-                ->setAuthor($data['_source']['author'])
-                ->setImage($data['_source']['image'])
-                ->setSource($data['_source']['source'])
+                ->setId((int) $data['_id'])
+                ->setTitle((string) $data['_source']['title'])
+                ->setSlug((string) $data['_source']['slug'])
+                ->setSummary((string) $data['_source']['summary'])
+                ->setContent((string) $data['_source']['content'])
+                ->setAuthor((string) $data['_source']['author'])
+                ->setSource((string) $data['_source']['source'])
                 ->setPublishDate($data['_source']['publishDate'])
-                ->setCategories($data['_source']['categories'])
                 ;
-        
+        if (isset($data['_source']['image'])) {
+            $this->setImage((string) $data['_source']['image']);
+        }
+        if (isset($data['_source']['categories'])) {
+            $this->setCategories($data['_source']['categories']);
+            $this->setDisplayCategories($data['_source']['displayCategories']);
+        }
         return $this;
     }
     
@@ -118,7 +123,7 @@ class Article
     
     public function getImage() : string
     {
-        return $this->image;
+        return (string) $this->image;
     }
     
     public function setSource(string $source) : Article
@@ -155,6 +160,17 @@ class Article
     public function getCategories() : array
     {
         return $this->categories;
+    }
+    
+    public function setDisplayCategories(array $displayCategories) : Article
+    {
+        $this->displayCategories = $displayCategories;
+        return $this;
+    }
+    
+    public function getDisplayCategories() : array
+    {
+        return $this->displayCategories;
     }
     
     public function setIndex(string $index) : Article

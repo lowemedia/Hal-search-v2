@@ -149,6 +149,14 @@ abstract class QueryAbstract
             }
         }
         
+        if (isset($params['filter']) && is_array($params['filter'])) {
+            foreach ($params['filter'] as $key => $value) {
+                $this->params['body']['query']['bool']['must'][] = 
+                        ["match_phrase" => [$key => $value]];
+            }
+        }
+        
+        
         if (isset($params['date-fr']) && isset($this->params['body']['query']['bool']['must'])) {
             $this->params['body']['query']['bool']['filter']["range"]["publishDate"]["gte"] = $params['date-fr'];
             
@@ -163,11 +171,7 @@ abstract class QueryAbstract
                 $this->params['body']['query']['bool']['must']["range"]["publishDate"]["lte"] = $params['date-to'];
             }
         }
-        
-//        echo '<pre>';
-//        print_r($this->params);
-//        die();
-        
+                
         return $this;
     }
 }

@@ -37,7 +37,10 @@ class CategoryAction implements ServerMiddlewareInterface
         
         $data = json_decode($res->getBody());
         
-        if ($this->topLevel === false && count($data->category->childCategories) > 0) {
+        if ((!isset($params['group']) || $params['group'] !== 'true') 
+                && $this->topLevel === false 
+                && isset($data->category->childCategories) 
+                && count($data->category->childCategories) > 0) {
             $this->response['category']['name'] = $data->category->name;
             foreach ($data->category->childCategories as $category) {
                 $this->processCategory($request, $category, 25);
@@ -59,6 +62,9 @@ class CategoryAction implements ServerMiddlewareInterface
         $params['page'] = 1;
         $params['size'] = $size;
         $params['category'] = [$category->code];
+        if (isset($params['image-only'])) {
+            $params['exists'] = ['image'];
+        }
         
         $results = $search->buildClient()->fetch($params);
         
