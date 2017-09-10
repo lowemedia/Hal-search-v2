@@ -27,6 +27,7 @@ class Article
     
     private function mapData(array $data)
     {
+        
         $this->setIndex($data['_index'])
                 ->setType($data['_type'])
                 ->setScore($data['_score'])
@@ -44,7 +45,9 @@ class Article
         }
         if (isset($data['_source']['categories'])) {
             $this->setCategories($data['_source']['categories']);
-            $this->setDisplayCategories($data['_source']['displayCategories']);
+            if (isset($data['_source']['displayCategories'])) {
+                $this->setDisplayCategories($data['_source']['displayCategories']);
+            }
         }
         return $this;
     }
