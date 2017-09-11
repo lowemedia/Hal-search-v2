@@ -29,7 +29,7 @@ class SummaryAction implements ServerMiddlewareInterface
             'date-fr' => $date->format('c'),
             'sort' => 'publishDate:desc',
             'exists' => ['image'],
-//            'filter' => ['featured' => '1']
+            'filter' => ['featured' => '1']
         ];
         
         $search = new \App\Query\Search($this->hosts);
