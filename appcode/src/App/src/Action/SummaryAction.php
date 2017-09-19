@@ -41,7 +41,7 @@ class SummaryAction implements ServerMiddlewareInterface
             $slugs[] = $article['slug'];
         }
         
-        $params['size'] = 240;
+        $params['size'] = 100;
         unset($params['exists']); // = ['featured'];
         unset($params['filter']);
         $params['excludes'] = ['slug' => $slugs];

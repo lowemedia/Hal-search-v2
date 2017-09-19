@@ -89,6 +89,9 @@ abstract class QueryAbstract
             'size' => $size,
             'from' => $from,
             'body' => [
+                '_source' => [
+                    'slug', 'title', 'summary', 'image', 'publishDate', 'author', 'source', 'categories', 'displayCategories'
+                ],
                 'track_scores' => true,
                 "min_score" => 1,
                 'query' => [
@@ -171,7 +174,7 @@ abstract class QueryAbstract
                 $this->params['body']['query']['bool']['must']["range"]["publishDate"]["lte"] = $params['date-to'];
             }
         }
-                
+        
         return $this;
     }
 }

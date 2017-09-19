@@ -27,7 +27,7 @@ class HomePageAction implements ServerMiddlewareInterface
         return new JsonResponse([
             'total' => $response['totalCount'],
             'count' => $response['count'],
-            'articles' => $response['source']
+            'articles' => isset($response['source']) ? $response['source'] : []
         ]);
     }
 }

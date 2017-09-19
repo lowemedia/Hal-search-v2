@@ -35,11 +35,15 @@ class Article
                 ->setTitle((string) $data['_source']['title'])
                 ->setSlug((string) $data['_source']['slug'])
                 ->setSummary((string) $data['_source']['summary'])
-                ->setContent((string) $data['_source']['content'])
                 ->setAuthor((string) $data['_source']['author'])
                 ->setSource((string) $data['_source']['source'])
                 ->setPublishDate($data['_source']['publishDate'])
                 ;
+        
+        if (isset($data['_source']['content'])) {
+            $this->setContent((string) $data['_source']['content']);
+        }
+        
         if (isset($data['_source']['image'])) {
             $this->setImage((string) $data['_source']['image']);
         }
@@ -104,7 +108,7 @@ class Article
     
     public function getContent() : string
     {
-        return $this->content;
+        return $this->content?$this->content:'';
     }
     
     public function setAuthor(string $author) : Article
