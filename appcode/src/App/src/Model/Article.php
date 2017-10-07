@@ -10,6 +10,7 @@ class Article
 {
     private $id;
     private $title;
+    private $subtitle;
     private $slug;
     private $summary;
     private $content;
@@ -27,12 +28,12 @@ class Article
     
     private function mapData(array $data)
     {
-        
         $this->setIndex($data['_index'])
                 ->setType($data['_type'])
                 ->setScore($data['_score'])
                 ->setId((int) $data['_id'])
                 ->setTitle((string) $data['_source']['title'])
+                ->setSubtitle((string) $data['_source']['subtitle'])
                 ->setSlug((string) $data['_source']['slug'])
                 ->setSummary((string) $data['_source']['summary'])
                 ->setAuthor((string) $data['_source']['author'])
@@ -76,6 +77,17 @@ class Article
     public function getTitle() : string
     {
         return $this->title;
+    }
+    
+    public function setSubtitle($subtitle) : Article
+    {
+        $this->subtitle = (string) $subtitle;
+        return $this;
+    }
+    
+    public function getSubtitle() : string
+    {
+        return $this->subtitle;
     }
     
     public function setSlug(string $slug) : Article

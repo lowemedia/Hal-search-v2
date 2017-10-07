@@ -90,7 +90,7 @@ abstract class QueryAbstract
             'from' => $from,
             'body' => [
                 '_source' => [
-                    'slug', 'title', 'summary', 'image', 'publishDate', 'author', 'source', 'categories', 'displayCategories'
+                    'slug', 'title', 'subtitle', 'summary', 'image', 'publishDate', 'author', 'source', 'categories', 'displayCategories'
                 ],
                 'track_scores' => true,
                 "min_score" => 1,
@@ -158,7 +158,6 @@ abstract class QueryAbstract
                         ["match_phrase" => [$key => $value]];
             }
         }
-        
         
         if (isset($params['date-fr']) && isset($this->params['body']['query']['bool']['must'])) {
             $this->params['body']['query']['bool']['filter']["range"]["publishDate"]["gte"] = $params['date-fr'];

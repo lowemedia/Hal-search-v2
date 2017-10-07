@@ -29,6 +29,11 @@ class CategoryAction implements ServerMiddlewareInterface
             $this->topLevel = $params['top-level'];
         }
         
+        $size = 25;
+        if (isset($params['size'])) {
+            $size = $params['size'];
+        }
+        
         $this->response['count'] = 0;
         $this->response['totalCount'] = 0;
         
@@ -43,10 +48,10 @@ class CategoryAction implements ServerMiddlewareInterface
                 && count($data->category->childCategories) > 0) {
             $this->response['category']['name'] = $data->category->name;
             foreach ($data->category->childCategories as $category) {
-                $this->processCategory($request, $category, 25);
+                $this->processCategory($request, $category, $size);
             }
         } else {
-            $this->processCategory($request, $data->category, $this->topLevel?25:100);
+            $this->processCategory($request, $data->category, $size);
         }
         
         return new JsonResponse($this->response);
